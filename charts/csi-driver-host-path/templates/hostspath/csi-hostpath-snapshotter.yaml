@@ -1,0 +1,40 @@
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+  name: csi-hostpath-snapshotter
+spec:
+  serviceName: "csi-hostpath-snapshotter"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: csi-hostpath-snapshotter
+  template:
+    metadata:
+      labels:
+        app: csi-hostpath-snapshotter
+    spec:
+{{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+{{- end }}
+      serviceAccount: csi-snapshotter
+      containers:
+        - name: csi-snapshotter
+          image: {{ .Values.snapshotter.repository }}:{{ .Values.snapshotter.tag }}
+          imagePullPolicy: {{ .Values.snapshotter.pullPolicy }}
+          args:
+            - -v=5
+            - --csi-address=/csi/csi.sock
+          securityContext:
+            # This is necessary only for systems with SELinux, where
+            # non-privileged sidecar containers cannot access unix domain socket
+            # created by privileged CSI driver container.
+            privileged: true
+          volumeMounts:
+            - mountPath: /csi
+              name: socket-dir
+      volumes:
+        - hostPath:
+            path: /var/lib/kubelet/plugins/csi-hostpath
+            type: DirectoryOrCreate
+          name: socket-dir

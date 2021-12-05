@@ -1,0 +1,66 @@
+storageClass:
+  isDefaultStorageClass: true
+
+snapshot-controller:
+  repository: csiplugin/snapshot-controller
+  tag: v2.0.1
+  pullPolicy: IfNotPresent
+
+attacher:
+  repository: k8s.gcr.io/sig-storage/csi-attacher
+  tag: v3.1.0
+  pullPolicy: IfNotPresent
+
+plugins:
+  healthMonitorAgent:
+    repository: k8s.gcr.io/sig-storage/csi-external-health-monitor-agent
+    tag: v0.2.0
+    pullPolicy: IfNotPresent
+  healthMonitorController:
+    repository: k8s.gcr.io/sig-storage/csi-external-health-monitor-controller
+    tag: v0.2.0
+    pullPolicy: IfNotPresent
+  nodeDriverRegistrar:
+    repository: k8s.gcr.io/sig-storage/csi-node-driver-registrar
+    tag: v2.0.1
+    pullPolicy: IfNotPresent
+  hostPathPlugin:
+    repository: k8s.gcr.io/sig-storage/hostpathplugin
+    tag: v1.6.2
+    pullPolicy: IfNotPresent
+    dataDir: /var/lib/csi-hostpath-data/
+  livenessProbe:
+    repository: k8s.gcr.io/sig-storage/livenessprobe
+    tag: v2.2.0
+    pullPolicy: IfNotPresent
+
+provisioner:
+  repository: k8s.gcr.io/sig-storage/csi-provisioner
+  tag: v2.1.0
+  pullPolicy: IfNotPresent
+
+resizer:
+  repository: k8s.gcr.io/sig-storage/csi-resizer
+  tag: v1.1.0
+  pullPolicy: IfNotPresent
+
+snapshotter:
+  repository: k8s.gcr.io/sig-storage/csi-snapshotter
+  tag: v4.0.0
+  pullPolicy: IfNotPresent
+
+testing:
+  repository: alpine/socat
+  tag: 1.0.3
+  pullPolicy: IfNotPresent
+
+#affinity:
+#  podAffinity:
+#    requiredDuringSchedulingIgnoredDuringExecution:
+#      - labelSelector:
+#          matchExpressions:
+#            - key: app
+#              operator: In
+#              values:
+#                - csi-hostpathplugin
+#        topologyKey: kubernetes.io/hostname

@@ -1,0 +1,13 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: csi-hostpath-sc
+  annotations:
+    kubesphere.io/alias-name: local-storage
+{{- if .Values.storageClass.isDefaultStorageClass }}
+    storageclass.kubernetes.io/is-default-class: "true"
+{{- end }}
+provisioner: hostpath.csi.k8s.io
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+allowVolumeExpansion: true

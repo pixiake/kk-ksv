@@ -1,0 +1,39 @@
+---
+storageClass:
+  isDefaultStorageClass: true
+
+enableHA: false
+
+snapshot-controller:
+  repository: csiplugin/snapshot-controller
+  tag: v2.0.1
+  pullPolicy: IfNotPresent
+
+ceph:
+  image:
+    repository: ceph/ceph
+    tag: v16.2.6
+
+rook-ceph:
+  image:
+    prefix: rook
+    repository: rook/ceph
+    tag: v1.7.9
+    pullPolicy: IfNotPresent
+  csi:
+    enableRbdDriver: true
+    enableCephfsDriver: false
+    enableCephfsSnapshotter: false
+    enableRBDSnapshotter: true
+    cephcsi:
+      image: kubespheredev/cephcsi:v3.4.0
+    registrar:
+      image: kubespheredev/csi-node-driver-registrar:v2.2.0
+    provisioner:
+      image: kubespheredev/csi-provisioner:v2.2.2
+    snapshotter:
+      image: kubespheredev/csi-snapshotter:v4.1.1
+    attacher:
+      image: kubespheredev/csi-attacher:v3.2.1
+    resizer:
+      image: kubespheredev/csi-resizer:v1.2.0
